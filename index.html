@@ -1,144 +1,34 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-<meta name="theme-color" content="#111827" />
-<title>Course à la Présidence</title>
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icon.svg">
-<style>
-:root{--bg:#0b1020;--card:#151b2e;--card2:#1f2937;--txt:#f9fafb;--muted:#aeb7c7;--accent:#60a5fa;--good:#34d399;--bad:#fb7185;--warn:#fbbf24;--line:#2f3a50}*{box-sizing:border-box}html,body{margin:0;padding:0;background:linear-gradient(160deg,#070b16,#111827 45%,#1e1b4b);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;min-height:100%;touch-action:manipulation}body{padding:env(safe-area-inset-top) 12px env(safe-area-inset-bottom)}.wrap{max-width:760px;margin:0 auto;padding-bottom:80px}.top{position:sticky;top:0;z-index:5;background:rgba(11,16,32,.88);backdrop-filter:blur(12px);padding:12px 0 10px;border-bottom:1px solid rgba(255,255,255,.08)}h1{font-size:23px;margin:0 0 8px}.sub{color:var(--muted);font-size:13px}.bar{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}.stat{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:8px;text-align:center}.stat b{display:block;font-size:17px}.stat span{font-size:11px;color:var(--muted)}.card{background:rgba(21,27,46,.94);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:14px;margin:12px 0;box-shadow:0 12px 30px rgba(0,0,0,.22)}.row{display:flex;gap:8px;align-items:center;justify-content:space-between}.pill{font-size:12px;padding:6px 9px;border-radius:999px;background:#263247;color:#cbd5e1}.btns{display:grid;grid-template-columns:1fr 1fr;gap:10px}.btn{border:0;border-radius:15px;padding:13px 10px;background:#2563eb;color:white;font-weight:700;font-size:14px;box-shadow:0 5px 0 #173d8c}.btn:active{transform:translateY(3px);box-shadow:0 2px 0 #173d8c}.btn.secondary{background:#374151;box-shadow:0 5px 0 #202633}.btn.good{background:#059669;box-shadow:0 5px 0 #065f46}.btn.bad{background:#e11d48;box-shadow:0 5px 0 #881337}.btn.warn{background:#d97706;box-shadow:0 5px 0 #92400e}.btn:disabled{opacity:.45;filter:grayscale(1)}.small{font-size:12px;color:var(--muted);line-height:1.45}.title{font-size:16px;font-weight:800;margin-bottom:9px}.meter{height:10px;border-radius:999px;background:#273247;overflow:hidden}.fill{height:100%;background:linear-gradient(90deg,#60a5fa,#34d399);border-radius:999px}.fill.bad{background:linear-gradient(90deg,#fb7185,#fbbf24)}.cand{display:grid;grid-template-columns:86px 1fr 38px;gap:8px;align-items:center;margin:9px 0}.region{display:grid;grid-template-columns:1fr 42px;gap:8px;margin:8px 0;padding:9px;background:rgba(255,255,255,.05);border-radius:12px}.winner{color:var(--good);font-weight:800}.loss{color:var(--bad);font-weight:800}.log{max-height:170px;overflow:auto;background:#0f172a;border-radius:12px;padding:10px;border:1px solid rgba(255,255,255,.08)}.log p{margin:0 0 8px;font-size:13px;color:#dbeafe}.tabbar{position:fixed;left:0;right:0;bottom:0;padding:8px 12px calc(8px + env(safe-area-inset-bottom));background:rgba(11,16,32,.92);backdrop-filter:blur(14px);display:grid;grid-template-columns:repeat(4,1fr);gap:8px;border-top:1px solid rgba(255,255,255,.1)}.tab{border:0;border-radius:13px;padding:10px 4px;background:#1f2937;color:#d1d5db;font-weight:700;font-size:12px}.tab.active{background:#2563eb;color:white}.hidden{display:none}.select{width:100%;padding:12px;border-radius:14px;background:#111827;color:white;border:1px solid #374151}.map{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.badge{font-size:11px;background:#111827;border:1px solid #334155;color:#cbd5e1;border-radius:999px;padding:4px 7px}.bigResult{text-align:center;font-size:28px;font-weight:900;margin:8px 0}.hint{border-left:4px solid var(--accent);padding-left:10px}.danger{border-left-color:var(--bad)}@media(min-width:650px){.map{grid-template-columns:repeat(3,1fr)}.btns{grid-template-columns:repeat(3,1fr)}}
-</style>
-</head>
-<body>
-<div class="wrap">
-  <div class="top">
-    <h1>Course à la Présidence</h1>
-    <div class="sub" id="headline">Menez votre campagne. Gagnez 51 grands électeurs.</div>
-    <div class="bar">
-      <div class="stat"><b id="turn">1/12</b><span>Tour</span></div>
-      <div class="stat"><b id="money">100</b><span>Crédits</span></div>
-      <div class="stat"><b id="ap">10</b><span>Actions</span></div>
-      <div class="stat"><b id="score">25%</b><span>Sondage</span></div>
-    </div>
-  </div>
-
-  <section id="home" class="screen">
-    <div class="card">
-      <div class="title">Votre candidat</div>
-      <select id="ideology" class="select">
-        <option value="centre">Réformateur centriste</option>
-        <option value="social">Social et populaire</option>
-        <option value="liberal">Libéral économique</option>
-        <option value="security">Ordre et sécurité</option>
-        <option value="green">Écologiste moderne</option>
-      </select>
-      <p class="small">Votre ligne politique influence les régions sensibles à votre programme.</p>
-      <button class="btn good" onclick="newGame()">Nouvelle partie</button>
-      <button class="btn secondary" onclick="loadGame()">Reprendre</button>
-    </div>
-    <div class="card hint">
-      <div class="title">But du jeu</div>
-      <p class="small">Après 12 tours, chaque région donne ses grands électeurs au candidat en tête. Il faut atteindre 51 sur 100.</p>
-    </div>
-  </section>
-
-  <section id="campaign" class="screen hidden">
-    <div class="card">
-      <div class="row"><div class="title">Actions de campagne</div><span class="pill">Tour <span id="turn2">1</span></span></div>
-      <select id="targetRegion" class="select"></select><br><br>
-      <div class="btns">
-        <button class="btn" onclick="act('meeting')">Meeting local<br><span class="small">1 action / 4 crédits</span></button>
-        <button class="btn" onclick="act('tv')">Spot TV<br><span class="small">2 actions / 12 crédits</span></button>
-        <button class="btn" onclick="act('social')">Réseaux sociaux<br><span class="small">1 action / 3 crédits</span></button>
-        <button class="btn warn" onclick="act('debate')">Préparer débat<br><span class="small">2 actions / 6 crédits</span></button>
-        <button class="btn bad" onclick="act('attack')">Attaquer rival<br><span class="small">2 actions / 8 crédits</span></button>
-        <button class="btn good" onclick="act('fund')">Lever fonds<br><span class="small">1 action / +18 crédits</span></button>
-      </div>
-    </div>
-    <div class="card">
-      <div class="title">Programme</div>
-      <p class="small">Choisis une priorité. Elle renforce ton score dans les régions compatibles, mais peut en froisser d'autres.</p>
-      <div class="btns">
-        <button class="btn secondary" onclick="program('eco')">Économie</button>
-        <button class="btn secondary" onclick="program('health')">Santé</button>
-        <button class="btn secondary" onclick="program('security')">Sécurité</button>
-        <button class="btn secondary" onclick="program('education')">Éducation</button>
-        <button class="btn secondary" onclick="program('green')">Climat</button>
-        <button class="btn good" onclick="endTurn()">Fin du tour</button>
-      </div>
-    </div>
-  </section>
-
-  <section id="polls" class="screen hidden">
-    <div class="card"><div class="title">Sondage national</div><div id="pollList"></div></div>
-    <div class="card"><div class="title">Sondages régionaux</div><div id="regionPolls" class="map"></div></div>
-  </section>
-
-  <section id="map" class="screen hidden">
-    <div class="card"><div class="title">Carte électorale</div><div id="regions" class="map"></div></div>
-  </section>
-
-  <section id="journal" class="screen hidden">
-    <div class="card"><div class="title">Journal de campagne</div><div class="log" id="log"></div></div>
-    <div class="card danger"><div class="title">Gestion</div><button class="btn bad" onclick="resetGame()">Effacer la sauvegarde</button></div>
-  </section>
-
-  <section id="final" class="screen hidden">
-    <div class="card"><div class="bigResult" id="finalTitle"></div><div id="finalText"></div><button class="btn good" onclick="newGame()">Rejouer</button></div>
-  </section>
-</div>
-<div class="tabbar" id="tabs">
-  <button class="tab active" onclick="show('campaign')">Campagne</button>
-  <button class="tab" onclick="show('polls')">Sondages</button>
-  <button class="tab" onclick="show('map')">Carte</button>
-  <button class="tab" onclick="show('journal')">Journal</button>
-</div>
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Course à la Présidence V2</title><style>
+:root{--bg:#0b1024;--card:#151b34;--card2:#10162c;--txt:#f4f7ff;--mut:#aab3cf;--acc:#34d399;--bad:#fb7185;--warn:#fbbf24;--blue:#60a5fa;--line:#293150}*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Arial;background:linear-gradient(180deg,#090d1d,#18194b);color:var(--txt);min-height:100vh}header{padding:24px 18px 12px;position:sticky;top:0;background:linear-gradient(180deg,#090d1d 80%,rgba(9,13,29,.85));z-index:2}h1{margin:0;font-size:30px}.sub{color:var(--mut);margin:8px 0}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}.stat{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:12px;text-align:center}.stat b{font-size:24px}.stat span{display:block;color:var(--mut);font-size:12px}.wrap{padding:12px 14px 90px}.card{background:rgba(21,27,52,.95);border:1px solid var(--line);border-radius:20px;margin:12px 0;padding:16px;box-shadow:0 16px 40px rgba(0,0,0,.18)}h2{font-size:21px;margin:0 0 12px}button,select{font:inherit;border:0;border-radius:15px;padding:13px 14px;color:var(--txt);background:#273149}button{font-weight:800}button.primary{background:linear-gradient(180deg,#10b981,#059669)}button.warn{background:#854d0e}button.bad{background:#9f1239}button.blue{background:#1d4ed8}button:disabled{opacity:.45}.row{display:flex;gap:9px;flex-wrap:wrap}.row>*{flex:1}.small{font-size:13px;color:var(--mut)}.actions button{width:100%;margin:5px 0;text-align:left}.bar{height:13px;background:#26304f;border-radius:99px;overflow:hidden}.fill{height:100%;background:linear-gradient(90deg,#60a5fa,#34d399)}.badfill{background:linear-gradient(90deg,#fb7185,#fbbf24)}.regions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.reg{padding:10px;border:1px solid var(--line);border-radius:14px;background:var(--card2);font-size:13px}.reg b{display:block;font-size:14px}.pill{display:inline-block;padding:3px 8px;border-radius:999px;background:#25304e;color:#cbd5e1;font-size:12px;margin:3px 3px 0 0}.log{max-height:220px;overflow:auto}.log p{margin:8px 0;padding:9px;border-left:3px solid var(--blue);background:#10162c;border-radius:8px}.tabs{position:fixed;bottom:0;left:0;right:0;background:#0b1024cc;backdrop-filter:blur(12px);display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:10px 8px calc(10px + env(safe-area-inset-bottom));border-top:1px solid var(--line);z-index:3}.tabs button{padding:10px 4px;font-size:12px;background:#151b34}.tabs button.on{background:#2563eb}.hidden{display:none}.candidate{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;padding:9px 0;border-bottom:1px solid #26304f}.map{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}.state{min-height:52px;border-radius:12px;border:1px solid #33405f;padding:6px;font-size:11px;background:#11182f}.you{outline:2px solid #34d399}.opp{outline:2px solid #fb7185}.neutral{outline:1px solid #64748b}.winner{font-size:34px;text-align:center;margin:14px 0}.event{border-left:4px solid var(--warn);padding-left:10px}.progress{font-size:12px;color:var(--mut);margin-top:5px}
+</style></head><body><header><h1>Course à la Présidence V2</h1><p class="sub">50 États, 538 grands électeurs, débats, scandales, fonds, IA adverse et second tour spécial.</p><div class="grid"><div class="stat"><b id="turn">1/16</b><span>Tour</span></div><div class="stat"><b id="cash">120</b><span>Crédits</span></div><div class="stat"><b id="ap">10</b><span>Actions</span></div><div class="stat"><b id="poll">25%</b><span>Sondage</span></div></div></header><main class="wrap">
+<section id="home" class="screen"><div class="card"><h2>Votre candidat</h2><select id="ideology"><option value="centre">Réformateur centriste</option><option value="eco">Écologiste social</option><option value="security">Ordre & sécurité</option><option value="market">Libéral économique</option><option value="pop">Populaire anti-système</option></select><p class="small">Votre ligne politique influence les États, les crises et les débats.</p><div class="row"><button class="primary" onclick="newGame()">Nouvelle partie</button><button onclick="loadGame()">Reprendre</button></div></div><div class="card"><h2>But du jeu</h2><p class="small">Après 16 tours, il faut obtenir 270 grands électeurs. Si personne n’y arrive, un second tour national départage les deux premiers.</p></div><div class="card"><h2>Dernier événement</h2><div id="eventBox" class="event small">Lancez une nouvelle partie.</div></div></section>
+<section id="campaign" class="screen hidden"><div class="card"><h2>Actions de campagne</h2><div class="actions" id="actions"></div></div><div class="card"><h2>Programme</h2><div id="issues"></div></div></section>
+<section id="polls" class="screen hidden"><div class="card"><h2>Sondages nationaux</h2><div id="cands"></div></div><div class="card"><h2>États clés</h2><div id="regions" class="regions"></div></div></section>
+<section id="map" class="screen hidden"><div class="card"><h2>Carte électorale</h2><div id="evs" class="small"></div><div class="map" id="states"></div></div><div class="card"><h2>Journal de campagne</h2><div class="log" id="log"></div></div></section>
+</main><nav class="tabs"><button class="on" onclick="tab('home',this)">Accueil</button><button onclick="tab('campaign',this)">Campagne</button><button onclick="tab('polls',this)">Sondages</button><button onclick="tab('map',this)">Carte</button></nav>
 <script>
-const names=['Vous','Vidal','Moreau','Kacem'];
-let G;
-const baseRegions=[
- {n:'Capitale',ev:15,t:{education:2,green:1,eco:1,security:-1,health:1}},
- {n:'Nord industriel',ev:12,t:{eco:2,health:1,security:1,green:-1,education:0}},
- {n:'Sud rural',ev:10,t:{security:1,health:1,eco:1,green:-1,education:0}},
- {n:'Littoral',ev:10,t:{green:2,eco:1,education:1,security:-1,health:0}},
- {n:'Ouest urbain',ev:9,t:{education:2,eco:1,green:1,security:0,health:1}},
- {n:'Est frontalier',ev:8,t:{security:2,eco:1,health:0,green:-1,education:0}},
- {n:'Bassin agricole',ev:8,t:{health:1,eco:2,green:-2,security:1,education:0}},
- {n:'Montagne',ev:7,t:{green:1,health:2,eco:0,security:0,education:1}},
- {n:'Métropoles',ev:11,t:{education:1,eco:2,green:1,security:0,health:1}},
- {n:'Frontière',ev:10,t:{security:2,eco:1,health:0,green:-1,education:-1}}
-];
-function newGame(){
- const ide=document.getElementById('ideology').value;
- G={turn:1,money:100,ap:10,cred:55,pop:50,debate:0,program:{eco:0,health:0,security:0,education:0,green:0},cands:names.map((n,i)=>({n,score:i?24+Math.random()*3:25,cred:50})),regions:JSON.parse(JSON.stringify(baseRegions)),log:[],ide};
- applyIdeology(); log('Campagne lancée. Votre objectif : 51 grands électeurs.'); save(); show('campaign'); render();
-}
-function applyIdeology(){let p=G.program;if(G.ide==='centre'){G.cred+=5} if(G.ide==='social'){p.health+=1} if(G.ide==='liberal'){p.eco+=1} if(G.ide==='security'){p.security+=1} if(G.ide==='green'){p.green+=1}}
-function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.add('hidden'));document.getElementById(id).classList.remove('hidden');document.getElementById('tabs').style.display=id==='home'||id==='final'?'none':'grid';document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));[...document.querySelectorAll('.tab')].find(b=>b.textContent.toLowerCase().includes(id==='map'?'carte':id==='polls'?'sondages':id==='journal'?'journal':'campagne'))?.classList.add('active');render();}
-function act(a){const r=document.getElementById('targetRegion').value;const cost={meeting:[1,4],tv:[2,12],social:[1,3],debate:[2,6],attack:[2,8],fund:[1,-18]}[a];if(G.ap<cost[0]||G.money<cost[1])return alert('Pas assez de crédits ou de points d’action.');G.ap-=cost[0];G.money-=cost[1];let reg=G.regions.find(x=>x.n===r);if(a==='meeting'){boostRegion(reg,2.7);G.pop+=.4;log('Meeting réussi à '+r+'.')}if(a==='tv'){boostAll(1.1);G.pop+=.8;log('Spot TV national diffusé.')}if(a==='social'){boostRegion(reg,1.5);G.pop+=.2;log('Campagne réseaux sociaux ciblée sur '+r+'.')}if(a==='debate'){G.debate+=2;G.cred+=1;log('Équipe débat renforcée.')}if(a==='attack'){attack();}if(a==='fund'){G.money+=36;G.cred-=1.5;log('Levée de fonds réussie, mais légère baisse de confiance.')}aiMove();normalize();save();render();}
-function boostRegion(reg,v){reg.you=(reg.you||0)+v;G.cands[0].score+=v*.08}
-function boostAll(v){G.regions.forEach(r=>r.you=(r.you||0)+v);G.cands[0].score+=v*.35}
-function attack(){let rival=1+Math.floor(Math.random()*3);let success=Math.random()<.62;if(success){G.cands[rival].score-=1.4;G.cands[0].score+=.4;log('Attaque efficace contre '+G.cands[rival].n+'.')}else{G.cands[0].score-=1.2;G.cred-=2;log('Attaque mal reçue : retour de bâton médiatique.')}}
-function program(k){if(G.ap<1)return alert('Plus assez de points d’action.');G.ap--;G.program[k]++;G.cred-=.4;log('Nouvelle priorité de programme : '+label(k)+'.');G.regions.forEach(r=>{r.you=(r.you||0)+(r.t[k]||0)*.7});normalize();save();render();}
-function aiMove(){G.cands.slice(1).forEach(c=>{c.score+=Math.random()*1.4-.45});}
-function endTurn(){eventRoll();debateRoll();G.turn++;G.ap=10;if(G.turn>12)return finalElection();G.money+=8;aiMove();normalize();save();render();}
-function eventRoll(){const events=[['Crise économique', 'eco', -1.2],['Bonne interview télé', 'cred', 1.8],['Polémique réseaux sociaux','pop',-1.6],['Soutien populaire','pop',1.5],['Insécurité dans l’actualité','security',1.2],['Débat social sur la santé','health',1.1],['Canicule et climat','green',1.1],['Rentrée scolaire tendue','education',1.1]];let e=events[Math.floor(Math.random()*events.length)];if(['eco','security','health','green','education'].includes(e[1])){G.regions.forEach(r=>r.you=(r.you||0)+(r.t[e[1]]||0)*e[2]*.45);G.cands[0].score+=G.program[e[1]]*.25}else{G[e[1]]+=e[2];G.cands[0].score+=e[2]*.35}log('Événement : '+e[0]+'.');}
-function debateRoll(){if(G.turn%3!==0)return;let gain=(G.debate+G.cred/30+Math.random()*3)-3;G.cands[0].score+=gain;G.debate=0;log('Grand débat TV : '+(gain>=0?'vous gagnez ':'vous perdez ')+Math.abs(gain).toFixed(1)+' point(s).');}
-function regionScore(r,i){let c=G.cands[i];let base=c.score;let mod=i===0?((r.you||0)+G.cred*.035+G.pop*.03):Math.random()*4;return base+mod+Math.random()*4}
-function finalElection(){let ev=[0,0,0,0],html='';G.regions.forEach(r=>{let scores=names.map((_,i)=>regionScore(r,i));let win=scores.indexOf(Math.max(...scores));ev[win]+=r.ev;html+=`<div class="region"><span>${r.n}<br><span class="small">${r.ev} grands électeurs</span></span><b class="${win===0?'winner':'loss'}">${names[win]}</b></div>`});let won=ev[0]>=51;document.getElementById('finalTitle').textContent=won?'Élu Président':'Défaite';document.getElementById('finalText').innerHTML=`<p>${won?'Victoire':'Vous échouez'} avec <b>${ev[0]}</b> grands électeurs.</p>${html}`;show('final');localStorage.removeItem('presidentGameV2');}
-function normalize(){G.cands.forEach(c=>c.score=Math.max(5,Math.min(55,c.score)));let total=G.cands.reduce((s,c)=>s+c.score,0);G.cands.forEach(c=>c.score=c.score/total*100);G.money=Math.max(0,Math.round(G.money));G.cred=Math.max(0,Math.min(100,G.cred));G.pop=Math.max(0,Math.min(100,G.pop));}
-function render(){if(!G)return;document.getElementById('turn').textContent=G.turn+'/12';document.getElementById('turn2').textContent=G.turn;document.getElementById('money').textContent=G.money;document.getElementById('ap').textContent=G.ap;document.getElementById('score').textContent=Math.round(G.cands[0].score)+'%';document.getElementById('headline').textContent='Crédibilité '+Math.round(G.cred)+' · Popularité '+Math.round(G.pop)+' · Débat +'+G.debate;let sel=document.getElementById('targetRegion');sel.innerHTML=G.regions.map(r=>`<option>${r.n}</option>`).join('');document.getElementById('pollList').innerHTML=G.cands.map(c=>`<div class="cand"><b>${c.n}</b><div class="meter"><div class="fill ${c.n==='Vous'?'':'bad'}" style="width:${c.score}%"></div></div><b>${Math.round(c.score)}%</b></div>`).join('');document.getElementById('regionPolls').innerHTML=G.regions.map(r=>`<div class="region"><span>${r.n}<br><span class="small">Tendance vous : ${Math.round((r.you||0)+G.cands[0].score)}%</span></span><span class="badge">${r.ev} GE</span></div>`).join('');document.getElementById('regions').innerHTML=G.regions.map(r=>`<div class="region"><span>${r.n}<br><span class="small">Priorités: ${topPrefs(r)}</span></span><b>${r.ev}</b></div>`).join('');document.getElementById('log').innerHTML=G.log.slice(-30).reverse().map(x=>`<p>${x}</p>`).join('');}
-function topPrefs(r){return Object.entries(r.t).sort((a,b)=>b[1]-a[1]).slice(0,2).map(x=>label(x[0])).join(', ')}
-function label(k){return {eco:'Économie',health:'Santé',security:'Sécurité',education:'Éducation',green:'Climat'}[k]}
-function log(t){G.log.push('Tour '+G.turn+' — '+t)}
-function save(){localStorage.setItem('presidentGameV2',JSON.stringify(G))}
-function loadGame(){let s=localStorage.getItem('presidentGameV2');if(!s)return alert('Aucune sauvegarde trouvée.');G=JSON.parse(s);show('campaign');render();}
-function resetGame(){localStorage.removeItem('presidentGameV2');location.reload();}
-show('home');
-</script>
-</body>
-</html>
+const issues=['Économie','Sécurité','Santé','Éducation','Climat'];const names=['Vous','Conservateur','Populiste','Progressiste'];
+const states='Alabama 9,Alaska 3,Arizona 11,Arkansas 6,California 54,Colorado 10,Connecticut 7,Delaware 3,Florida 30,Georgia 16,Hawaii 4,Idaho 4,Illinois 19,Indiana 11,Iowa 6,Kansas 6,Kentucky 8,Louisiana 8,Maine 4,Maryland 10,Massachusetts 11,Michigan 15,Minnesota 10,Mississippi 6,Missouri 10,Montana 4,Nebraska 5,Nevada 6,New Hampshire 4,New Jersey 14,New Mexico 5,New York 28,North Carolina 16,North Dakota 3,Ohio 17,Oklahoma 7,Oregon 8,Pennsylvania 19,Rhode Island 4,South Carolina 9,South Dakota 3,Tennessee 11,Texas 40,Utah 6,Vermont 3,Virginia 13,Washington 12,West Virginia 4,Wisconsin 10,Wyoming 3,DC 3'.split(',').map((s,i)=>{let a=s.trim().split(' '),ev=+a.pop();return{name:a.join(' '),ev,lean:(i*37)%5,media:40+((i*13)%35),poll:[25,25,25,25]}});
+let G;function base(){return{turn:1,max:16,cash:120,ap:10,cred:55,momentum:0,issue:[1,1,1,1,1],cand:[25,25,25,25],log:[],states:JSON.parse(JSON.stringify(states)),over:false}}function newGame(){G=base();msg('Campagne lancée. Choisissez vos actions.');save();draw()}function loadGame(){G=JSON.parse(localStorage.presV2||'null')||base();draw()}function save(){localStorage.presV2=JSON.stringify(G)}
+function msg(t){G.log.unshift('Tour '+G.turn+' — '+t);document.getElementById('eventBox').textContent=t}
+function tab(id,b){document.querySelectorAll('.screen').forEach(x=>x.classList.add('hidden'));document.getElementById(id).classList.remove('hidden');document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('on'));b.classList.add('on');draw()}
+function spend(c,fn){if(!G||G.over)return;if(G.ap<c)return alert('Pas assez de points action.');G.ap-=c;fn();ai();eventMaybe();if(G.ap<=0)nextTurn();save();draw()}
+function clamp(x){return Math.max(3,Math.min(70,x))}function bump(i,v){G.cand[i]=clamp(G.cand[i]+v);rebalance(i)}function rebalance(i){let sum=G.cand.reduce((a,b)=>a+b,0);G.cand=G.cand.map((x,k)=>Math.round(x*100/sum));}
+function actionList(){return[
+['Grand meeting national',3,()=>{G.cash-=8;bump(0,3);G.momentum+=2;msg('Votre meeting fait la une. +sondage, +momentum.')}],
+['Publicité ciblée dans les États clés',2,()=>{G.cash-=12;moveStates(0,3);msg('Vos pubs ciblées progressent dans plusieurs États clés.')}],
+['Débat télévisé',3,()=>debate()],['Lever des fonds',2,()=>{G.cash+=30;G.cred-=2;msg('Grosse levée de fonds. +30 crédits, mais légère perte de crédibilité.')}],
+['Répondre aux attaques',2,()=>{G.cred+=4;bump(0,1);msg('Réponse calme et crédible. Vous rassurez.')}],
+['Attaquer un adversaire',2,()=>{let t=1+Math.floor(Math.random()*3);bump(t,-3);G.cred-=1;msg('Attaque contre '+names[t]+'. Elle marque, mais vous paraît plus agressif.')}],
+['Renforcer le programme',2,()=>{let i=Math.floor(Math.random()*5);G.issue[i]++;G.cred+=2;msg('Votre axe '+issues[i]+' devient plus solide.')}],
+['Visite terrain',1,()=>{moveStates(0,1);bump(0,1);msg('Bain de foule réussi. Petit gain local et national.')}],
+['Recruter un conseiller',3,()=>{G.cash-=15;G.cred+=5;G.momentum+=3;msg('Un conseiller expérimenté rejoint l’équipe.')}],
+['Finir le tour',0,()=>nextTurn(true)] ];}
+function moveStates(w,pts){G.states.forEach(s=>{if(Math.random()<.28){s.poll[w]=clamp(s.poll[w]+pts);let k=1+Math.floor(Math.random()*3);s.poll[k]=clamp(s.poll[k]-1)}})}
+function ai(){for(let i=1;i<4;i++){let r=Math.random(); if(r<.35)bump(i,2); else if(r<.55)bump(0,-1); G.states.forEach(s=>{if(Math.random()<.18)s.poll[i]=clamp(s.poll[i]+2)})}}
+function eventMaybe(){if(Math.random()>.55)return;let ev=[['Scandale médiatique',()=>{bump(0,-4);G.cred-=5}],['Crise économique',()=>{let ide=document.getElementById('ideology').value;bump(ide==='market'||ide==='centre'?0:1,3)}],['Soutien d’une star',()=>{bump(0,3);G.momentum+=2}],['Gaffe en direct',()=>{bump(0,-3)}],['Crise sécuritaire',()=>{let ide=document.getElementById('ideology').value;bump(ide==='security'?0:1,4)}],['Vidéo virale',()=>{bump(0,2);G.cash+=5}]];let e=ev[Math.floor(Math.random()*ev.length)];e[1]();msg(e[0]+' : impact immédiat sur la campagne.')}function debate(){let score=G.cred+G.momentum+Math.random()*35;if(score>75){bump(0,5);msg('Débat gagné nettement. Vous prenez l’avantage.')}else if(score>50){bump(0,2);msg('Débat correct. Vous progressez légèrement.')}else{bump(0,-4);msg('Débat raté. Vos adversaires exploitent vos faiblesses.')}}
+function nextTurn(manual){if(G.turn>=G.max){election();return}G.turn++;G.ap=10;G.cash+=8;G.momentum=Math.max(0,G.momentum-1);if(manual)msg('Fin de tour. Les équipes se repositionnent.');save();draw()}
+function election(){G.over=true;let ev=[0,0,0,0];G.states.forEach(s=>{let arr=s.poll.map((p,i)=>p+(i==0?G.cand[0]/8:0)+Math.random()*12);let w=arr.indexOf(Math.max(...arr));s.w=w;ev[w]+=s.ev});let top=ev.map((v,i)=>[v,i]).sort((a,b)=>b[0]-a[0]);if(top[0][0]<270){let bonus=G.cand[top[0][1]]>=G.cand[top[1][1]]?20:0;top[0][0]+=bonus;msg('Aucun candidat à 270. Second tour national : bonus final au meilleur vote populaire.')}let won=top[0][1]===0;msg(won?'VICTOIRE ! Vous êtes élu président.':'Défaite. '+names[top[0][1]]+' remporte l’élection.');save();draw()}
+function projected(){let ev=[0,0,0,0];G.states.forEach(s=>{let w=s.poll.indexOf(Math.max(...s.poll));ev[w]+=s.ev});return ev}
+function draw(){if(!G)G=base();document.getElementById('turn').textContent=G.turn+'/'+G.max;document.getElementById('cash').textContent=G.cash;document.getElementById('ap').textContent=G.ap;document.getElementById('poll').textContent=G.cand[0]+'%';document.getElementById('actions').innerHTML=actionList().map((a,i)=>`<button onclick="spend(${a[1]},actionList()[${i}][2])" ${G.cash<0?'disabled':''}>${a[0]} <span class="small">(${a[1]} PA)</span></button>`).join('');document.getElementById('issues').innerHTML=issues.map((x,i)=>`<div class="candidate"><span>${x}<br><span class="progress">niveau ${G.issue[i]}</span></span><button onclick="spend(1,()=>{G.issue[${i}]++;G.cred++;msg('Promesse renforcée : ${x}.')})">+ Promesse</button></div>`).join('');document.getElementById('cands').innerHTML=names.map((n,i)=>`<div class="candidate"><span><b>${n}</b><br><div class="bar"><div class="fill ${i?'badfill':''}" style="width:${G.cand[i]}%"></div></div></span><b>${G.cand[i]}%</b></div>`).join('');let sorted=[...G.states].sort((a,b)=>Math.abs(b.poll[0]-25)-Math.abs(a.poll[0]-25)).slice(0,12);document.getElementById('regions').innerHTML=sorted.map(s=>`<div class="reg"><b>${s.name} (${s.ev})</b>${names[s.poll.indexOf(Math.max(...s.poll))]} en tête <span class="pill">Vous ${s.poll[0]}%</span></div>`).join('');let ev=projected();document.getElementById('evs').innerHTML=`Projection : Vous ${ev[0]} / 270 — Conservateur ${ev[1]} — Populiste ${ev[2]} — Progressiste ${ev[3]}`;document.getElementById('states').innerHTML=G.states.map(s=>{let w=s.w??s.poll.indexOf(Math.max(...s.poll));return `<div class="state ${w==0?'you':w?'opp':'neutral'}"><b>${s.name}</b><br>${s.ev} GE<br>${names[w]}</div>`}).join('');document.getElementById('log').innerHTML=G.log.map(x=>`<p>${x}</p>`).join('');}
+loadGame();draw();</script></body></html>
